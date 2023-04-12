@@ -91,12 +91,19 @@ public class SavingAccountTest {
 
     @Test
     public void shouldCheckRate() {
-        SavingAccount account = new SavingAccount(
-                2_000,
-                1_000,
-                10_000,
-                5
-        );
-        Assertions.assertEquals(100, account.yearChange());
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new SavingAccount(1_000, 1_000, 1_000, -1));
+    }
+
+    @Test
+    public void shouldCheckMinBalanse() {
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new SavingAccount(1_000, -1_000, 1_000, 5));
+    }
+
+    @Test
+    public void shouldCheckMinAndMax() {
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new SavingAccount(1000, 5000, 1000, 5));
     }
 }
