@@ -28,7 +28,7 @@ public class CreditAccount extends Account {
             throw new IllegalArgumentException(
                     "Начальный баланс не может быть отрицательным, а у вас: " + initialBalance);
         }
-        if (creditLimit <= 0) {
+        if (creditLimit < 0) {
             throw new IllegalArgumentException(
                     "Кредитный лимит не может быть отрицательным, а у вас: " + creditLimit);
         }
@@ -52,11 +52,7 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        if (amount > balance + creditLimit) {
-            return false;
-        }
-        balance = balance - amount;
-        if (balance > creditLimit) {
+        if (balance + creditLimit >= amount) {
             balance = balance - amount;
             return true;
         } else {
@@ -97,7 +93,7 @@ public class CreditAccount extends Account {
     @Override
     public int yearChange() {
         if (balance < 0) {
-            return balance / 100 * rate;
+            return balance * rate / 100;
         }
         return 0;
     }
